@@ -2,7 +2,17 @@
   <div id="app">
     <h1>Jogo da Forca</h1>
     <section id="inicio" v-if="tela === 'inicio'">
-      <Formulario />
+      <Formulario
+        v-if="etapa === 'palavra'"
+        title="Defina a palavra"
+        button="Próximo"
+        :action="setPalavra"
+      />
+      <Formulario
+        v-if="etapa === 'dica'"
+        title="Defina a dica"
+        button="Iniciar o game :)"
+      />
     </section>
     <section id="jogo" v-if="tela === 'jogo'">Jogo</section>
   </div>
@@ -18,11 +28,17 @@ export default {
   data() {
     return {
       tela: "inicio",
+      etapa: "palavra",
     };
   },
   components: {
     Formulario,
   },
+  methods: {
+    setPalavra: function(palavra) {
+      alert(palavra)
+    }
+  }
 };
 </script>
 
