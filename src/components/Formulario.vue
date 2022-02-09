@@ -2,8 +2,10 @@
   <div class="formulario">
     <div class="formulario-title">{{ title }}</div>
     <input type="text" class="formulario-input" v-model="inputValue" />
-    
-    <button v-on:click="onSubmit" :disabled="inputValue.length === 0">{{ button }}</button>
+
+    <button v-on:click="onSubmit" :disabled="inputValue.length === 0">
+      {{ button }}
+    </button>
   </div>
 </template>
 
@@ -20,12 +22,12 @@ export default {
       inputValue: "",
     };
   },
-  methods:{
-    onSubmit: function() {
+  methods: {
+    onSubmit: function () {
       this.action(this.inputValue);
       this.inputValue = "";
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -12,9 +12,10 @@
         v-if="etapa === 'dica'"
         title="Defina a dica"
         button="Iniciar o game :)"
+        :action="setDica"
       />
     </section>
-    <section id="jogo" v-if="tela === 'jogo'">Jogo</section>
+    <section id="jogo" v-if="tela === 'jogo'"><Jogo :erros="erros" /></section>
   </div>
 </template>
 
@@ -22,6 +23,7 @@
 import "./css/global.css";
 
 import Formulario from "./components/Formulario";
+import Jogo from "./components/Jogo";
 
 export default {
   name: "App",
@@ -29,16 +31,26 @@ export default {
     return {
       tela: "inicio",
       etapa: "palavra",
+      palavra: "",
+      dica: "",
+      erros: 0,
     };
   },
   components: {
     Formulario,
+    Jogo,
   },
   methods: {
-    setPalavra: function(palavra) {
-      alert(palavra)
-    }
-  }
+    setPalavra: function (palavra) {
+      this.palavra = palavra;
+      this.etapa = "dica";
+    },
+    setDica: function (dica) {
+      this.palavra = dica;
+      this.tela = "jogo";
+      this.etapa = "jogo";
+    },
+  },
 };
 </script>
 
