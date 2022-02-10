@@ -15,7 +15,18 @@
         :action="setDica"
       />
     </section>
-    <section id="jogo" v-if="tela === 'jogo'"><Jogo :erros="erros" /></section>
+    <section id="jogo" v-if="tela === 'jogo'">
+      <Jogo
+        :erros="erros"
+        :palavra="palavra"
+        :dica="dica"
+        :verificarLetra="verificarLetra"
+        :etapa="etapa"
+        :letras="letras"
+        :jogar="jogar"
+        :jogarNovamente="jogarNovamente"
+      />
+    </section>
   </div>
 </template>
 
@@ -34,6 +45,7 @@ export default {
       palavra: "",
       dica: "",
       erros: 0,
+      letras: [],
     };
   },
   components: {
@@ -46,10 +58,50 @@ export default {
       this.etapa = "dica";
     },
     setDica: function (dica) {
-      this.palavra = dica;
+      this.dica = dica;
       this.tela = "jogo";
       this.etapa = "jogo";
     },
+    verificarLetra: function (letra) {
+      return this.letras.find(
+        (item) => item.toLowerCase() === letra.toLowerCase()
+      );
+    },
+    jogar: function (letra) {
+      //Adciona a letra clicada
+      this.letras.push(letra);
+
+      //Valida o erro
+      this.verificarErros(letra);
+    },
+    verificarErros: function (letra) {
+      //Acerto
+      if (this.palavra.toLowerCase().indexOf(letra.toLowerCase()) >= 0) {
+        return this.verificarAcertos();
+      }
+
+      //Erros
+      this.erros++;
+      //Enforcado
+      if (this.erros === 6) {
+        this.etapa = "enforcado";
+      }
+    },
+    verificarAcertos: function () {
+      let letrasUnicas = [...new Set(this.palavra.split(""))];
+      if (letrasUnicas.length === this.letras.length - this.erros) {
+        this.etapa = "ganhador";
+      }
+    },
+
+    jogarNovamente: function(){
+      this.palavra = '';
+      this.dica = '';
+      this.erros = 0;
+      this.letras = [];
+      this.tela = 'inicio'
+      this.etapa = 'palavra'
+    }
   },
 };
 </script>
